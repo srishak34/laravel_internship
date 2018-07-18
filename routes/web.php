@@ -17,12 +17,12 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'crud@index')->name('home');
+Route::get('/home', 'crudController@index')->name('home');
 
 ///////////////
 //Post
-Route::resource('/dashboard', 'crud');
-Route::delete('deleteAll', 'crud@deleteAll')->name('delAll');
+Route::resource('/dashboard', 'crudController');
+Route::delete('deleteAll', 'crudController@deleteAll');
 
 //edit
 

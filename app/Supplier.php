@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Supplier extends Model
 {
-    public $timestamps = false;
-    protected $primaryKey = 'idSupplier';
-    protected $fillable = ['idSupplier', 'name', 'address', 'zip', 'region', 'city', 'country', 'phone', 'email'];
+    
+    
+    protected $fillable = ['id', 'name', 'address','postal_code', 'zip_code', 'region', 'city', 'country', 'contact_phone', 'contact_email'];
     public function scopeSearch($query, $s) {
     	return $query->where('name', 'like', '%' .$s. '%')
-    	->orWhere('email', 'like', '%' .$s. '%');
+    	->orWhere('contact_email', 'like', '%' .$s. '%');
     }
 }

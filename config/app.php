@@ -151,6 +151,7 @@ return [
          * Package Service Providers...
          */
         Collective\Html\HtmlServiceProvider::class,
+        Stevebauman\Inventory\InventoryServiceProvider::class,
         /*
          * Application Service Providers...
          */

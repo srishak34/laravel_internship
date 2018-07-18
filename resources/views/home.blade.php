@@ -10,7 +10,7 @@
             
             
                 <ul class="nav navbar-nav col-md-2 " style="padding: 5px;  ">
-                  <li><a class="btn btn-block btn-info" href="#">Suppliers</a>
+                  <li><a class="btn btn-block btn-info" href="#"><i class="fas fa-chalkboard" style="color: blue;" ></i> Suppliers</a>
                   </li>
                 </ul>
               
@@ -19,6 +19,13 @@
                         <table class="table table-borderless">                          
                             <tr>
                                 <td class="nav-brand" style="font-size: 20px;"><i class="fa fa-bars" style="color: blue;" ></i> Supplier</td>
+                                @if (Session::has('success'))
+                                    <td class="text-center" style="font-size: 20px;">{{Session::get('success')}}</td>
+                                    @elseif (Session::has('u_success'))
+                                    <td class="text-center" style="font-size: 20px;">{{Session::get('u_success')}}</td>
+                                    @else
+                                    <td></td>
+                                @endif                                
                                 <td  class="float-right"><button type="button" class="btn btn-block btn-info" data-toggle="modal" data-target="#create" style="font-size: 15px;">New Supplier</button></td>
 
     
@@ -29,6 +36,12 @@
                         <h3 class="modal-title">New Supplier</h3>
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
+                            {{-- Success Notif --}}
+                    
+
+                    {{-- Error Notif --}}
+                    
+
                     <div class="modal-body">
                         <form action="{{ route('dashboard.store') }}" method="POST">
                             {{ csrf_field() }}
@@ -41,13 +54,10 @@
                                     <input type="text" name="address" class="form-control" placeholder="Enter Address">
 
                                     <label>Zip Code or Postal Code</label>
-                                    <input type="text" name="code" class="form-control" pattern="[\d+]{5,}" title="Please type your code" maxlength="13" placeholder="Enter Code">
+                                    <input type="text" name="code" class="form-control" pattern="[\d+]{5,}" title="Please type your Code" maxlength="8" placeholder="Enter Code">
 
                                     <label>Region</label>
                                     <input type="text" name="region" class="form-control" placeholder="Enter Region">
-
-                                    </div>
-                                    <div class="col-md-6 form-group">
 
                                     <label>City</label>
                                     <input type="text" name="city" class="form-control" placeholder="Enter City">
@@ -55,11 +65,23 @@
                                     <label>Country</label>
                                     <input type="text" name="country" class="form-control" placeholder="Enter Country">
 
+                                    </div>
+                                    <div class="col-md-6 form-group">
+
                                     <label>Phone Number</label>
                                     <input type="text" name="number" class="form-control" pattern="[\d+]{12,}" maxlength="13" placeholder="Enter The Number">
 
                                     <label>Email</label>
                                     <input type="email" name="email" class="form-control" placeholder="Enter Email">
+
+                                    <label>Contact title</label>
+                                    <input type="text" name="c_title" class="form-control" placeholder="Enter Contact Title">
+
+                                    <label>Contact Name</label>
+                                    <input type="text" name="c_name" class="form-control" placeholder="Enter Contact Name">
+
+                                    <label>Fax</label>
+                                    <input type="text" name="fax" class="form-control" pattern="[\d+]{5,}" maxlength="8" placeholder="Enter Fax">
                                 </div>
                             </div>
                                 <div class="row">
@@ -94,7 +116,7 @@
                                         </div>
                                     </form>                                
                                 </td>
-                                
+                                <td></td>
                                 <td class="float-right"><button style="padding: 7px;" class="btn btn-primary delete_all" data-url="{{ url('deleteAll') }}">Delete Selection </button></td>
                             </tr>
 
@@ -114,23 +136,23 @@
                                     </thead>
                                     <tbody>
                                         @foreach($supplier as $data)
-                                        <tr id="tr_{{ $data-> idSupplier}}">
-                                            <td><input type="checkbox" class="sub_chk" data-id="{{$data-> idSupplier}}"></td>
-                                            <td>{{ $data -> idSupplier }}</td>
+                                        <tr id="tr_{{ $data-> id}}">
+                                            <td><input type="checkbox" class="sub_chk" data-id="{{$data-> id}}"></td>
+                                            <td>{{ $data -> id }}</td>
                                             <td>{{ $data -> name }}</td>
                                             <td>{{ $data -> address }}</td>
                                             <td>{{ $data -> country }}</td>
-                                            <td>{{ $data -> phone }}</td>
-                                            <td>{{ $data -> email }}</td>
+                                            <td>{{ $data -> contact_phone }}</td>
+                                            <td>{{ $data -> contact_email }}</td>
                                             <th>
-                                                <form action="{{ route('dashboard.destroy', ['id' => $data -> idSupplier]) }}" method="post">
+                                                <form action="{{ route('dashboard.destroy', ['id' => $data -> id]) }}" method="post">
                                                 {{ csrf_field() }}
                                                     <input type="hidden" name="_method" value="DELETE">
                                                     <input type="submit" name="" class="btn btn-danger" style="font-size: 10px;" value="Delete">
                                                 </form>
                                             </th>
                                             <th>
-                                                <button type="button" class="btn btn-default btn-info" data-name="{{ $data -> name }}" data-address="{{ $data -> address }}" data-zip="{{ $data -> zip }}" data-region="{{ $data -> region }}" data-city="{{ $data -> city }}" data-country="{{ $data -> country }}" data-phone="{{ $data -> phone }}" data-email="{{ $data -> email }}" data-id="{{ $data -> idSupplier }}" data-toggle="modal" data-target="#edit" style="font-size: 10px;">Edit Data</button>
+                                                <button type="button" class="btn btn-default btn-info" data-name="{{ $data -> name }}" data-address="{{ $data -> address }}" data-zip="{{ $data -> zip_code }}" data-region="{{ $data -> region }}" data-city="{{ $data -> city }}" data-country="{{ $data -> country }}" data-phone="{{ $data -> contact_phone }}" data-email="{{ $data -> contact_email }}" data-ctitle="{{ $data -> contact_title }}" data-cname="{{ $data -> contact_name }}" data-fax="{{ $data -> contact_fax }}" data-id="{{ $data -> id }}" data-toggle="modal" data-target="#edit" style="font-size: 10px;">Edit Data</button>
                                                 </th>
         <div class="modal fade" id="edit">
             <div class="modal-dialog modal-lg">
@@ -158,20 +180,29 @@
                                     <label>Region</label>
                                     <input type="text" name="region" id="u_region" class="form-control" placeholder="Enter Region">
 
-                                    </div>
-                                    <div class="col-md-6 form-group">
-
                                     <label>City</label>
                                     <input type="text" name="city" id="u_city" class="form-control" placeholder="Enter City">
 
                                     <label>Country</label>
-                                    <input type="text" name="country" id="u_country" class="form-control" placeholder="Enter Country">
+                                    <input type="text" name="country" id="u_country" class="form-control" placeholder="Enter Country">                                    
+
+                                    </div>
+                                    <div class="col-md-6 form-group">
 
                                     <label>Phone Number</label>
-                                    <input type="text" name="number" id="u_number" class="form-control" pattern="[\d+]{12,}" title="Please Input Your Phone Number" maxlength="13" placeholder="Enter The Number">
+                                    <input type="text" name="number" id="u_number" class="form-control" pattern="[\d+]{12,}" title="Please Input Your Phone Number" maxlength="13" placeholder="Enter The Number">                                
 
                                     <label>Email</label>
                                     <input type="email" name="email" id="u_email" class="form-control" placeholder="Enter Email">
+
+                                    <label>Contact title</label>
+                                    <input type="text" name="c_title" id="u_c_title" class="form-control" placeholder="Enter Contact Title">
+
+                                    <label>Contact Name</label>
+                                    <input type="text" name="c_name" id="u_c_name" class="form-control" placeholder="Enter Contact Name">
+
+                                    <label>Fax</label>
+                                    <input type="text" name="fax" id="u_fax" class="form-control" pattern="[\d+]{5,}" maxlength="8" placeholder="Enter Fax">
                                 </div>
                             </div>
                                 <div class="row">
@@ -212,7 +243,7 @@
                                 
                             </tr>
                         </table>
-                        <div class="row text-center">
+                        <div class="justify-content-center">
                             {{ $supplier ->appends(['search' => $search])->links() }}       
                         </div>
                         
@@ -233,6 +264,9 @@
             var country = button.data('country')
             var phone = button.data('phone')
             var email = button.data('email')
+            var ctitle = button.data('ctitle')
+            var cname = button.data('cname')
+            var fax = button.data('fax')
             var supplier = button.data('id')
 
             var modal = $(this)
@@ -245,6 +279,9 @@
             modal.find('.modal-body #u_country').val(country)
             modal.find('.modal-body #u_number').val(phone)
             modal.find('.modal-body #u_email').val(email)
+            modal.find('.modal-body #u_c_title').val(ctitle)
+            modal.find('.modal-body #u_c_name').val(cname)
+            modal.find('.modal-body #u_fax').val(fax)
             modal.find('.modal-body #supplier_id').val(supplier)
         });
 

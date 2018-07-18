@@ -9,6 +9,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>Nash</title>
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('/image/nashicon.ico') }}" />
 
     <!-- Scripts -->
     <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">
@@ -28,7 +29,9 @@
 
     
     
-
+    <style type="text/css">
+        
+    </style>
     
 
     
